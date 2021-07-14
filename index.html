@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>SDK test</title>
+<script type="text/javascript" data-app-id="P4TTEEXp9X8uwfZIklOA" src="https://c64.assets-yammer.com/assets/platform_js_sdk.js"></script>
+</head>
+<body>
+  <span id="yj-share-button"></span>
+  <h1 class="login-status"></h1>
+  <button class="login-button">Login</button>
+  <script type="text/javascript">
+    const loginButton = document.querySelector(".login-button");
+    const loginStatus = document.querySelector(".login-status");
+
+    const renderLoggedIn = () => {
+      loginStatus.innerText = "Status: Signed In";
+      loginButton.style.display = "none";
+    };
+    const renderLoggedOut = () => {
+      loginStatus.innerText = "Status: Signed Out";
+      loginButton.style.display = "block";
+    };
+
+    renderLoggedOut();
+
+    document.querySelector(".login-button").addEventListener("click", (evt) => {
+      yam.platform.login((response) => {
+        if (response.authResponse) {
+          renderLoggedIn();
+          console.log("login successful", response);
+//           yam.platform.request({
+//             url: "users.json",
+//             method: "GET",
+//             data: {
+//               "letter": "a",
+//               "page": "2",
+//             },
+//             success: (user) => {
+//               console.log("request successful", user);
+//             },
+//             error: (user) => {
+//               console.log("request failed");
+//             }
+//           });
+        } else {
+          renderLoggedOut();
+          console.log("login failed", response);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
